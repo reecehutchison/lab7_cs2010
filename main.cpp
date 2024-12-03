@@ -2,6 +2,8 @@
 #include <set>
 #include <map>
 #include <queue>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -26,16 +28,18 @@ void print_header(string str);
 void print_stats(DICTION& diction);
 void print_letter_freq(DICTION& diction);
 void print_dictionary(DICTION& diction);
+void print_histogram(DICTION& diction);
 
 int main() {
     
     DICTION diction;
-    fill_diction(diction); // will handle the input and fill structure
+   
+    fill_diction(diction); 
     print_stats(diction);
     print_letter_freq(diction);
     print_dictionary(diction);
+    print_histogram(diction);
     
-
     return 0; 
 }
 // this function handles the input file.
@@ -132,7 +136,7 @@ void print_stats(DICTION& diction) {
     cout << "\b\b  " <<  endl << endl;
     cout << "Number of Chars   : " << get<0>(diction.stats) << endl;
     cout << "Number of Words   : " << get<1>(diction.stats) << endl;
-    cout << "Number of Lines   : " << get<2>(diction.stats) << endl;
+    cout << "Number of Lines   : " << get<2>(diction.stats) << endl; 
 }
 
 void print_letter_freq(DICTION& diction) {
@@ -161,14 +165,28 @@ void print_dictionary(DICTION& diction) {
     cout << endl;
     print_header("Dictionary");
     cout << endl;
-
+    vector<pair<string, int>> list;
     for(auto e : diction.freqWord) {
-        cout << e.first << " " << e.second << endl;
+        list.push_back({e.second, e.first});
+        
     }
-
+    sort(list.begin(), list.end());
+    cout << "Word" << "                                  " << "Freq" << endl;
+    cout << "-------------------------------------------" << endl;
+    for(auto e : list) {
+        cout << e.first;
+        int n=40-e.first.length();
+        for(int i=0; i<n; ++i)
+            cout <<" "; 
+        cout << e.second << endl;
+    }
 }
 
-
+void print_histogram(DICTION& diction) {
+    cout << endl;
+    print_header("Histogram");
+    cout << endl;
+}
 
 
 
