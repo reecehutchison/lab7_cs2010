@@ -3,7 +3,7 @@
 Reece Hutchison.
 Franco Carlnacci.
 CS2010.
-Lab Assignment 5.
+Lab Assignment 7.
 
 Program will parse a text file and provide statistics such as number 
 of words and frequency of each charecter. A word counts a a sequence of 
