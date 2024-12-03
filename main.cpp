@@ -29,6 +29,7 @@ void print_stats(DICTION& diction);
 void print_letter_freq(DICTION& diction);
 void print_dictionary(DICTION& diction);
 void print_histogram(DICTION& diction);
+void fill_map(DICTION& diction);
 
 int main() {
     
@@ -58,6 +59,7 @@ void fill_diction(DICTION& diction) {
     int char_count=0; 
     int word_count=0;
     int line_count=0;
+    fill_map(diction);
     while(!cin.eof()) {
         WORD current_word=get_next_word(
                 diction, 
@@ -106,7 +108,7 @@ WORD get_next_word(DICTION& diction, int& chars, int& words, int& lines) {
         if(isalpha(ch)) {
             w.push_back(tolower(ch)); 
             inWord=true;             
-            diction.wordFreq[tolower(ch)]++;
+            diction.wordFreq[ch]++;
         } else if(inWord) {             
             ++words;
             return w;
@@ -253,3 +255,15 @@ void print_histogram(DICTION& diction) {
         cout << endl;
     }
 }
+
+void fill_map(DICTION& diction) {
+    // diction.wordFreq  
+    for(int i=(int)'A'; i<=(int)'Z'; ++i)
+        diction.wordFreq[i]=0;
+    for(int i=(int)'a'; i<=(int)'z'; ++i)
+        diction.wordFreq[i]=0;
+}
+
+
+
+
