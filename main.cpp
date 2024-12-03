@@ -36,6 +36,14 @@ int main() {
    
     fill_diction(diction); 
     print_stats(diction);
+
+    if(diction.words.size()<=0) {
+        cout << endl;
+        cout << "Add words into the input file to print graphs..." << endl;
+        cout << endl;
+        return 0;
+    }
+
     print_letter_freq(diction);
     print_dictionary(diction);
     print_histogram(diction);
@@ -126,9 +134,11 @@ void print_header(string str) {
 
 void print_stats(DICTION& diction) {
     cout << endl;
-    print_header("Stats");
+    print_header("Stats"); 
     cout << endl << "Words in dictionary: ";
     int count=0;
+    if(diction.words.size()<=0)
+        cout << "Input file had no words in it..." << endl;
     for(const auto e : diction.words) {
         if(count!=0&&count%5==0) 
             cout << endl << "                     ";
@@ -191,13 +201,8 @@ void print_histogram(DICTION& diction) {
     vector<pair<string, int>> list;
     for(auto e : diction.freqWord) {
         list.push_back({e.second, e.first});
-        
     }
     sort(list.begin(), list.end());
-
-
-// -----------------------
-
     int offset=20;
     int longest=diction.longWord.top().length();
     int word_count=get<1>(diction.stats);
@@ -207,7 +212,6 @@ void print_histogram(DICTION& diction) {
         if(longest_star<e.second)
             longest_star=e.second;
     }
-   
     for(int i=longest_star; i>=0; --i) {  
         for(int j=0; j<offset+longest; ++j)
             cout << " ";
@@ -219,24 +223,16 @@ void print_histogram(DICTION& diction) {
         }
         cout << endl;
     }
-
-    // line     
     int set_count=0;
     for(const auto e : diction.words)
         ++set_count;
     for(int i=0; i<offset+longest+set_count*3; ++i) 
         cout << "-";
     cout << endl;
-
-    // arrow heads
     for(int i=0; i<longest+offset; ++i)
         cout << " ";
     for(int i=0; i<set_count; ++i) 
         cout << "^  ";
-
-
-
-    // words and arrow bodies...
     cout << endl;
     int curr_word=set_count;
     int spacing=0;
