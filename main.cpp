@@ -39,6 +39,8 @@ int main() {
     print_letter_freq(diction);
     print_dictionary(diction);
     print_histogram(diction);
+
+    cout << endl << endl << endl;
     
     return 0; 
 }
@@ -186,13 +188,72 @@ void print_histogram(DICTION& diction) {
     cout << endl;
     print_header("Histogram");
     cout << endl;
+    vector<pair<string, int>> list;
+    for(auto e : diction.freqWord) {
+        list.push_back({e.second, e.first});
+        
+    }
+    sort(list.begin(), list.end());
+
+
+// -----------------------
+
+    int offset=20;
+    int longest=diction.longWord.top().length();
+    int word_count=get<1>(diction.stats);
+    // stars     i  count
+    int longest_star=list[0].second;
+    for(auto e : list) {
+        if(longest_star<e.second)
+            longest_star=e.second;
+    }
+   
+    for(int i=longest_star; i>=0; --i) {  
+        for(int j=0; j<offset+longest; ++j)
+            cout << " ";
+        for(int j=0; j<word_count; ++j) {
+            if(list[j].second>i) 
+                cout << "*  ";
+            else 
+                cout << "   ";
+        }
+        cout << endl;
+    }
+
+    // line     
+    int set_count=0;
+    for(const auto e : diction.words)
+        ++set_count;
+    for(int i=0; i<offset+longest+set_count*3; ++i) 
+        cout << "-";
+    cout << endl;
+
+    // arrow heads
+    for(int i=0; i<longest+offset; ++i)
+        cout << " ";
+    for(int i=0; i<set_count; ++i) 
+        cout << "^  ";
+
+
+
+    // words and arrow bodies...
+    cout << endl;
+    int curr_word=set_count;
+    int spacing=0;
+    for(auto e : list) {
+        cout << e.first;
+        for(int i=0; i<longest-e.first.length()+1; ++i)
+            cout << " ";
+        for(int i=0; i<offset-1; ++i) {
+            cout << "-";
+        }
+        for(int i=0; i<spacing; ++i)
+            cout << "-";
+        spacing+=3; 
+        cout << "/";
+        for(int i=0; i<curr_word-1; ++i) 
+            cout << "  |";
+        --curr_word;
+        cout << endl;
+    }
 }
-
-
-
-
-
-
-
-
-
